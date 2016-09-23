@@ -6,7 +6,10 @@
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="css/app.css">
 
+  <!--
   <script src="//code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+  -->
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 	
 
 </head>
@@ -86,15 +89,17 @@ jQuery(document).ready(function( $ ) {
   $( '#textInput' ).keydown( function( e ) {
   // Submit on enter key, dis-allowing blank messages
     if ( e.which == 13 && this.value ) {
-	  DisplayUserResponse( this.value);
+	  if (this.value.match("^h")) {
+	  DisplayResponse( this.value, false );
+	  } else {
+	  DisplayResponse( this.value, true );
+	  }
 	  this.value = '';
     }
   });
 });
-// set from-user or from-watson
-// remove latest
 // set top or sub, automatically (does it matter though? what does it do anyways)
-function createMessageElement ( textMessage ) {
+function createMessageElement ( textMessage, isUser ) {
   // Construct DOM elements that a message is consisted of:
   // Example of a message:
   // <div class="segments load">
@@ -105,7 +110,7 @@ function createMessageElement ( textMessage ) {
   //   </div>
   // </div>
   var parentDiv = $( '<div>', { class: 'segments load' } ); 
-  var firstChildDiv = $( '<div>', { class: 'from-user latest sub' } );
+  var firstChildDiv = $( '<div>', { class: ( isUser? 'from-user' : 'from-watson')+' latest top' } );
   var secondChildDiv = $( '<div>', { class: 'message-inner' } );
   var thirdChildDiv = $( '<p>', { text: textMessage } );
 
@@ -116,12 +121,17 @@ function createMessageElement ( textMessage ) {
 
   return parentDiv;
 };
-function DisplayUserResponse ( textMessage ) {
+
+function DisplayResponse ( textMessage, isUser ) {
   // Get the chat window element, which should happen globally and shouldn't keep creating this element on and on
   var chatWindow = $('#scrollingChat');
 
+  if (!isUser) {
+	$(".from-watson.latest.top").removeClass("latest");//probably not the best solution
+  }
+
   // Create a new message element and attach it to the chat window
-  chatWindow.append(createMessageElement(textMessage));
+  chatWindow.append(createMessageElement(textMessage, isUser));
 
   // Scroll to the bottom of the chat window
   chatWindow.scrollTop(chatWindow.prop("scrollHeight"));
