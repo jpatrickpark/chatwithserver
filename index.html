@@ -83,25 +83,47 @@
 ConversationPanel.init();
 
 jQuery(document).ready(function( $ ) {
-  $( '#textInput' ).keydown(function(e) {
+  $( '#textInput' ).keydown( function( e ) {
   // Submit on enter key, dis-allowing blank messages
-    if ( e.which == 13 && this.value) {
+    if ( e.which == 13 && this.value ) {
 	  DisplayUserResponse( this.value);
 	  this.value = '';
     }
   });
 });
+// set from-user or from-watson
+// remove latest
+// set top or sub, automatically (does it matter though? what does it do anyways)
 function createMessageElement ( textMessage ) {
-	var prnt = $('<div>', {class: 'segments load'}); //load used not to be there
-	prnt.append($('<div>', {class: 'from-user latest sub'}));
-	prnt.children().first().append($('<div>', {class: 'message-inner'}));
-	prnt.children().first().children().first().append($('<p>', {text: textMessage}));
-	return prnt;
+  // Construct DOM elements that a message is consisted of:
+  // Example of a message:
+  // <div class="segments load">
+  //   <div class="from-user sub">
+  //     <div class="message-inner">
+  //       <p>A message.</p>
+  //     </div>
+  //   </div>
+  // </div>
+  var parentDiv = $( '<div>', { class: 'segments load' } ); 
+  var firstChildDiv = $( '<div>', { class: 'from-user latest sub' } );
+  var secondChildDiv = $( '<div>', { class: 'message-inner' } );
+  var thirdChildDiv = $( '<p>', { text: textMessage } );
+
+  // Put together the DOM elements.
+  secondChildDiv.append( thirdChildDiv );
+  firstChildDiv.append( secondChildDiv );
+  parentDiv.append( firstChildDiv );
+
+  return parentDiv;
 };
 function DisplayUserResponse ( textMessage ) {
+  // Get the chat window element, which should happen globally and shouldn't keep creating this element on and on
   var chatWindow = $('#scrollingChat');
+
+  // Create a new message element and attach it to the chat window
   chatWindow.append(createMessageElement(textMessage));
+
+  // Scroll to the bottom of the chat window
   chatWindow.scrollTop(chatWindow.prop("scrollHeight"));
 };
 </script>
-
