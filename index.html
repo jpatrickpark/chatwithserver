@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title>Untitled</title>
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/app.css">
+
+  <script src="//code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+	
+
+</head>
+
+<nav class="navbar navbar-default">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">untitled.js</a>
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="intro.html">Intro</a></li>
+        <li><a href="doc.html">Documents</a></li> 
+        <li><a href="help.html">Help</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<div class="container" style="height: 70vh;">
+  <div id="scrollingChat">
+    <!-- This is one server-side message -->
+    <div class="segments load">
+      <div class="from-watson top">
+        <div class="message-inner">
+          <p>Hi. this is an old message.</p>
+        </div>
+      </div>
+    </div>
+    <!-- This is a client-side message -->
+    <div class="segments load">
+      <div class="from-user top">
+        <div class="message-inner">
+          <p>First message.</p>
+        </div>
+      </div>
+    </div>
+    <!-- This is another server-side message -->
+    <div class="segments load">
+      <div class="from-watson latest top">
+        <div class="message-inner">
+          <p>And this is a new message. I am trying to see if the app looks like what I intended. It should just be like terminal, wide width, just to make it clear using chat UI. Excellent.</p>
+        </div>
+      </div>
+    </div>
+    <!-- This is another client-side message -->
+    <div class="segments load">
+      <div class="from-user latest top"> <!-- This 'latest' doesn't actually matter here, but I can use it for debug or usability purposes.-->
+        <div class="message-inner">
+          <p>Second message.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <label for="textInput" class="inputOutline">
+    <input id="textInput" class="input" placeholder="Type your command ..." type="text" autofocus>
+  </label>
+</div>
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="js/common.js"></script>
+<script src="js/conversation.js"></script>
+<script>
+ConversationPanel.init();
+
+jQuery(document).ready(function( $ ) {
+  $( '#textInput' ).keydown(function(e) {
+  // Submit on enter key, dis-allowing blank messages
+    if ( e.which == 13 && this.value) {
+	  DisplayUserResponse( this.value);
+	  this.value = '';
+    }
+  });
+});
+function createMessageElement ( textMessage ) {
+	var prnt = $('<div>', {class: 'segments load'}); //load used not to be there
+	prnt.append($('<div>', {class: 'from-user latest sub'}));
+	prnt.children().first().append($('<div>', {class: 'message-inner'}));
+	prnt.children().first().children().first().append($('<p>', {text: textMessage}));
+	return prnt;
+};
+function DisplayUserResponse ( textMessage ) {
+  var chatWindow = $('#scrollingChat');
+  chatWindow.append(createMessageElement(textMessage));
+  chatWindow.scrollTop(chatWindow.prop("scrollHeight"));
+};
+</script>
+

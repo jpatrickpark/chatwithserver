@@ -1,0 +1,15 @@
+untitled.js
+Copyright 2016 Jungkyu Park
+
+This product includes software developed by Jungkyu Park (https://www.jpatrickpark.com).
+
+This product contains software (https://github.com/watson-developer-cloud/conversation-simple) developed
+by IBM Corp., licensed under the Apache 2.0 License.
+The files that are developed by IBM Corp. are the followings:
+  - js/common.js
+  - js/conversation.js
+  - css/app.css
+  - fonts/*
+  - img/*
+
+Modifications are marked in the header of each file that are modified.
