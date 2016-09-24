@@ -112,29 +112,18 @@ function createMessageElement ( textMessage, isUser ) {
   // Construct DOM elements that a message is consisted of:
   // Example of a message:
   // <div class="segments load">
-  //   <div class="from-user sub">
+  //   <div class="from-user">
   //     <div class="message-inner">
   //       <p>A message.</p>
   //     </div>
   //   </div>
   // </div>
   return $( '<div class="segments load">'+
-		    '<div class="'+ ( isUser? 'from-user' : 'from-watson top' )+ ' latest' + '">' +
-			'<div class="message-inner">'+
-			'<p>'+
-			textMessage +
-			'</p></div></div></div>' );
-  /*var parentDiv = $( '<div>', { class: 'segments load' } ); 
-  var firstChildDiv = $( '<div>', { class: ( isUser? 'from-user' : 'from-watson top' )+' latest' } );
-  var secondChildDiv = $( '<div>', { class: 'message-inner' } );
-  var thirdChildDiv = $( '<p>', { text: textMessage } );
-
-  // Put together the DOM elements.
-  secondChildDiv.append( thirdChildDiv );
-  firstChildDiv.append( secondChildDiv );
-  parentDiv.append( firstChildDiv );
-
-  return parentDiv;*/
+            '<div class="'+ ( isUser ? 'from-user' : 'from-watson top' )+ ' latest' + '">' +
+            '<div class="message-inner">'+
+            '<p>'+
+            textMessage +
+            '</p></div></div></div>' );
 };
 
 function DisplayResponse ( textMessage, isUser ) {
