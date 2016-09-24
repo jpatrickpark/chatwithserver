@@ -87,11 +87,7 @@ ConversationPanel.init();
 
 jQuery(document).ready(function( $ ) {
   // I should only put 
-  // $( '#textInput' ).chatModule(function(userMessage, chat){
-  //   if ( userMessage != '' ) {
-  //     pushstate?
-  //   }
-  //},{
+  // $( '#textInput' ).chatModule(function( userMessage ){
   //   commands: {
   //      open: {
   //        url: "/entry/{itemid}",
@@ -100,17 +96,14 @@ jQuery(document).ready(function( $ ) {
   //        changeurl: '/entry/{itemid}',
   //        syntax: "find [OPTION]... [ENTRY]...",
   //        option: [ 'a', 'h', 'l' ],
-  //        example: [ 'find -a alphabet', 'find --human-readable jQuery' ]
+  //        example: [ 'find -a alphabet', 'find --human-readable jQuery' ],
+  //        data_to_send_to_server: userMessage,
+  //        serverMessage: function( data_received_from_server ) {
+  //             ...
+  //        }
   //      }
-  //      rm: {
-  //        url: "/entry/{itemid}",
-  //        async: false,
-  //        type: 'DELETE',
-  //        syntax: "find [OPTION]... [ENTRY]...",
-  //        option: [ 'a', 'h', 'l' ],
-  //        example: [ 'find -a alphabet', 'find --human-readable jQuery' ]
-  //      }
-  //   }
+  //   },
+  //   greetings: ["", "", ""]
   //});
   // and then, depending on the commands listed, help messages and
   // 'help command' are automatically generated.
