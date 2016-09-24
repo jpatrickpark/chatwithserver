@@ -43,7 +43,7 @@
   <div id="scrollingChat">
     <!-- This is one server-side message -->
     <div class="segments load">
-      <div class="from-watson top">
+      <div class="from-watson">
         <div class="message-inner">
           <p>Hi. this is an old message.</p>
         </div>
@@ -51,7 +51,7 @@
     </div>
     <!-- This is a client-side message -->
     <div class="segments load">
-      <div class="from-user top">
+      <div class="from-user">
         <div class="message-inner">
           <p>First message.</p>
         </div>
@@ -67,7 +67,7 @@
     </div>
     <!-- This is another client-side message -->
     <div class="segments load">
-      <div class="from-user latest top"> <!-- This 'latest' doesn't actually matter here, but I can use it for debug or usability purposes.-->
+      <div class="from-user latest"> <!-- This 'latest' doesn't actually matter here, but I can use it for debug or usability purposes.-->
         <div class="message-inner">
           <p>Second message.</p>
         </div>
@@ -86,6 +86,15 @@
 ConversationPanel.init();
 
 jQuery(document).ready(function( $ ) {
+  // I should only put 
+  // $( '#textInput' ).chatModule(function(userMessage, chat){
+  //   if (userMessage != '')
+		...
+  //},{
+  //   greetings: "What can I do?"
+  //});
+  // in order to do that, I should have something like
+  // $.fn.chatModule = function(init_function,options) ..
   $( '#textInput' ).keydown( function( e ) {
   // Submit on enter key, dis-allowing blank messages
     if ( e.which == 13 && this.value ) {
@@ -109,8 +118,14 @@ function createMessageElement ( textMessage, isUser ) {
   //     </div>
   //   </div>
   // </div>
-  var parentDiv = $( '<div>', { class: 'segments load' } ); 
-  var firstChildDiv = $( '<div>', { class: ( isUser? 'from-user' : 'from-watson')+' latest top' } );
+  return $( '<div class="segments load">'+
+		    '<div class="'+ ( isUser? 'from-user' : 'from-watson top' )+ ' latest' + '">' +
+			'<div class="message-inner">'+
+			'<p>'+
+			textMessage +
+			'</p></div></div></div>' );
+  /*var parentDiv = $( '<div>', { class: 'segments load' } ); 
+  var firstChildDiv = $( '<div>', { class: ( isUser? 'from-user' : 'from-watson top' )+' latest' } );
   var secondChildDiv = $( '<div>', { class: 'message-inner' } );
   var thirdChildDiv = $( '<p>', { text: textMessage } );
 
@@ -119,21 +134,25 @@ function createMessageElement ( textMessage, isUser ) {
   firstChildDiv.append( secondChildDiv );
   parentDiv.append( firstChildDiv );
 
-  return parentDiv;
+  return parentDiv;*/
 };
 
 function DisplayResponse ( textMessage, isUser ) {
   // Get the chat window element, which should happen globally and shouldn't keep creating this element on and on
   var chatWindow = $('#scrollingChat');
 
-  if (!isUser) {
-	$(".from-watson.latest.top").removeClass("latest");//probably not the best solution
+  // should I keep a temp variable of last message, rather than just finding all out of the whole document?
+  // I am trying to build a chat where there can be multiple dialogues simultaneously, so yeah, I should.
+  if ( isUser ) {
+	$( ".from-user.latest" ).removeClass( "latest" );//probably not the best solution
+  } else {
+	$( ".from-watson.latest.top" ).removeClass( "latest" ).removeClass( "top" );//probably not the best solution
   }
 
   // Create a new message element and attach it to the chat window
-  chatWindow.append(createMessageElement(textMessage, isUser));
+  chatWindow.append( createMessageElement( textMessage, isUser ) );
 
   // Scroll to the bottom of the chat window
-  chatWindow.scrollTop(chatWindow.prop("scrollHeight"));
+  chatWindow.scrollTop( chatWindow.prop( "scrollHeight" ) );
 };
 </script>
