@@ -88,11 +88,34 @@ ConversationPanel.init();
 jQuery(document).ready(function( $ ) {
   // I should only put 
   // $( '#textInput' ).chatModule(function(userMessage, chat){
-  //   if (userMessage != '')
-		...
+  //   if ( userMessage != '' ) {
+  //     pushstate?
+  //   }
   //},{
-  //   greetings: "What can I do?"
+  //   commands: {
+  //      open: {
+  //        url: "/entry/{itemid}",
+  //        async: true,
+  //        type: 'GET',
+  //        changeurl: '/entry/{itemid}',
+  //        syntax: "find [OPTION]... [ENTRY]...",
+  //        option: [ 'a', 'h', 'l' ],
+  //        example: [ 'find -a alphabet', 'find --human-readable jQuery' ]
+  //      }
+  //      rm: {
+  //        url: "/entry/{itemid}",
+  //        async: false,
+  //        type: 'DELETE',
+  //        syntax: "find [OPTION]... [ENTRY]...",
+  //        option: [ 'a', 'h', 'l' ],
+  //        example: [ 'find -a alphabet', 'find --human-readable jQuery' ]
+  //      }
+  //   }
   //});
+  // and then, depending on the commands listed, help messages and
+  // 'help command' are automatically generated.
+  // 'syntax' is printed in case of error or help command
+  // argument parsing... 
   // in order to do that, I should have something like
   // $.fn.chatModule = function(init_function,options) ..
   $( '#textInput' ).keydown( function( e ) {
